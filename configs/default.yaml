@@ -1,0 +1,35 @@
+# @package _global_
+
+defaults:
+  - model: qwen3_8b
+  - dataset: default  # Uses configs/dataset/default.yaml (xlam)
+  - training: ppo
+  - reward: composite_reward
+  - _self_
+
+experiment:
+  name: "agentic_rag_baseline"
+  seed: 42
+  output_dir: "./experiments/${experiment.name}"
+  logging:
+    use_wandb: true
+    wandb_project: "agentic-graphrag-rl-trainer"
+    log_interval: 10
+    save_interval: 500
+    eval_interval: 500
+
+hardware:
+  device: "cuda"
+  gpu_id: 0
+  mixed_precision: "bf16"  # bfloat16 for RTX 4070
+  gradient_checkpointing: true
+  max_memory: "12GB"
+  use_flash_attention: true
+
+  # Auto-detection and tuning
+  auto_detect_gpu: true
+  auto_tune_sequence_length: true
+  target_memory_utilization: 0.8
+  min_batch_size: 1
+  max_batch_size: 16
+  adaptive_batching: true

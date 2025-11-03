@@ -1,0 +1,110 @@
+{
+  "experiment": {
+    "name": "grpo_synthetic_test",
+    "seed": 42,
+    "output_dir": "./experiments/grpo_synthetic_test",
+    "logging": {
+      "use_wandb": false,
+      "log_interval": 2,
+      "save_interval": 100,
+      "eval_interval": 100
+    }
+  },
+  "dataset": {
+    "name": "synthetic_function_calling",
+    "path": "./data/synthetic_function_calling/dataset",
+    "preprocessing": {
+      "max_length": 512,
+      "padding": "max_length",
+      "truncation": true,
+      "add_special_tokens": true
+    },
+    "split": {
+      "train_ratio": 0.9,
+      "val_ratio": 0.1,
+      "test_ratio": 0.0
+    },
+    "loader": {
+      "batch_size": 2,
+      "num_workers": 2,
+      "pin_memory": true,
+      "shuffle": true
+    }
+  },
+  "model": {
+    "name": "Qwen/Qwen2.5-7B-Instruct",
+    "model_type": "qwen",
+    "max_sequence_length": 512,
+    "quantization": {
+      "enabled": true,
+      "bits": 4,
+      "compute_dtype": "bfloat16"
+    },
+    "generation": {
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "max_new_tokens": 128,
+      "do_sample": true
+    }
+  },
+  "training": {
+    "method": "grpo",
+    "schedule": {
+      "total_steps": 20,
+      "warmup_steps": 2,
+      "logging_steps": 2,
+      "eval_steps": 10,
+      "save_steps": 20
+    },
+    "ppo": {
+      "num_generations": 4,
+      "learning_rate": 1e-5,
+      "batch_size": 2,
+      "mini_batch_size": 1,
+      "gradient_accumulation_steps": 1
+    },
+    "optimizer": {
+      "name": "adamw",
+      "weight_decay": 0.01,
+      "lr_scheduler": "cosine"
+    },
+    "early_stopping": {
+      "enabled": false
+    }
+  },
+  "reward": {
+    "normalization": {
+      "method": "none"
+    },
+    "components": {
+      "ast_validation": {
+        "weight": 0.3
+      },
+      "type_check": {
+        "weight": 0.3
+      },
+      "semantic_similarity": {
+        "weight": 0.2,
+        "model": "sentence-transformers/all-MiniLM-L6-v2"
+      },
+      "execution": {
+        "weight": 0.2,
+        "sandbox": false
+      }
+    }
+  },
+  "hardware": {
+    "device": "cuda",
+    "gpu_id": 0,
+    "mixed_precision": "bf16",
+    "gradient_checkpointing": true,
+    "max_memory": "12GB",
+    "use_flash_attention": true,
+    "auto_detect_gpu": true,
+    "auto_tune_sequence_length": true,
+    "target_memory_utilization": 0.8,
+    "min_batch_size": 1,
+    "max_batch_size": 8,
+    "adaptive_batching": true
+  }
+}

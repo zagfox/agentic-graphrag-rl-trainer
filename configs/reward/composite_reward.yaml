@@ -1,0 +1,43 @@
+# @package reward
+
+type: "composite"
+
+components:
+  syntax:
+    enabled: true
+    weight: 0.3
+    validator: "ast"
+    penalty_malformed: -1.0
+    reward_valid: 1.0
+
+  type_checking:
+    enabled: true
+    weight: 0.2
+    use_json_schema: true
+    penalty_wrong_type: -0.5
+    reward_correct_type: 0.5
+
+  semantic:
+    enabled: true
+    weight: 0.5
+
+    function_name:
+      weight: 0.4
+      exact_match_only: true
+
+    parameter_names:
+      weight: 0.3
+      allow_extra_params: false
+
+    parameter_values:
+      weight: 0.3
+      type_strict: true
+
+normalization:
+  method: "z_score"  # Options: "z_score", "min_max", "none"
+  clip_range: [-5.0, 5.0]
+
+scaling:
+  adaptive: true
+  target_mean: 0.0
+  target_std: 1.0

@@ -1,0 +1,38 @@
+name: "xlam"  # Salesforce/xlam-function-calling-60k - 60,000 records, requires HF_TOKEN
+
+preprocessing:
+  max_length: 512
+  padding: "max_length"
+  truncation: true
+  add_special_tokens: true
+
+split:
+  train_ratio: 0.85
+  val_ratio: 0.10
+  test_ratio: 0.05
+
+format:
+  system_prompt: "You are a function calling AI assistant."
+  function_call_format: "json"
+  include_negative_samples: true
+  negative_sample_ratio: 0.2
+
+loader:
+  batch_size: 1
+  num_workers: 0
+  pin_memory: true
+  shuffle: true
+
+# DEFAULT DATASET CONFIGURATION
+# This project uses xlam-function-calling-60k exclusively for training
+#
+# Dataset: Salesforce/xlam-function-calling-60k
+# Records: 60,000 high-quality examples with ground truth
+# Quality: 95%+ accuracy (3-stage verification)
+# Generation: DeepSeek-V2 + Mixtral-8x22B
+#
+# Authentication: HuggingFace account required
+# 1. Add HF_TOKEN to your .env file
+# 2. Visit: https://huggingface.co/datasets/Salesforce/xlam-function-calling-60k
+# 3. Accept dataset terms
+# 4. See docs/DATASET_SETUP.md for full instructions

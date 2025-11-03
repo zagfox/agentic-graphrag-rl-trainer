@@ -1,0 +1,44 @@
+{
+  "_comment": "Low Memory Config - 16GB RAM + RTX 4070 (12GB VRAM)",
+  "_expected_ram_usage": "~8-10 GB",
+  "_training_time": "~15-20 hours for 10k steps",
+
+  "experiment": {
+    "name": "low_memory_16gb",
+    "seed": 42
+  },
+  "training": {
+    "sft_warmstart": {
+      "enabled": true,
+      "num_epochs": 2,
+      "batch_size": 2,
+      "gradient_accumulation_steps": 4
+    },
+    "ppo": {
+      "batch_size": 2,
+      "num_generations": 2,
+      "gradient_accumulation_steps": 4,
+      "learning_rate": 1.41e-5
+    },
+    "schedule": {
+      "total_steps": 10000,
+      "eval_steps": 500,
+      "save_steps": 1000,
+      "logging_steps": 10
+    }
+  },
+  "dataset": {
+    "preprocessing": {
+      "max_length": 1024
+    },
+    "loader": {
+      "batch_size": 2,
+      "num_workers": 2
+    }
+  },
+  "experiment": {
+    "logging": {
+      "use_wandb": true
+    }
+  }
+}

@@ -1,0 +1,276 @@
+{
+  "citation": "",
+  "description": "",
+  "features": {
+    "tools": {
+      "feature": {
+        "description": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "name": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "parameters": {
+          "properties": {
+            "body": {
+              "description": {
+                "dtype": "string",
+                "_type": "Value"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            },
+            "expression": {
+              "description": {
+                "dtype": "string",
+                "_type": "Value"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            },
+            "filters": {
+              "description": {
+                "dtype": "string",
+                "_type": "Value"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            },
+            "include_forecast": {
+              "default": {
+                "dtype": "bool",
+                "_type": "Value"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            },
+            "language": {
+              "enum": {
+                "feature": {
+                  "dtype": "string",
+                  "_type": "Value"
+                },
+                "_type": "List"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            },
+            "limit": {
+              "default": {
+                "dtype": "int64",
+                "_type": "Value"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            },
+            "location": {
+              "description": {
+                "dtype": "string",
+                "_type": "Value"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            },
+            "num_results": {
+              "default": {
+                "dtype": "int64",
+                "_type": "Value"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            },
+            "precision": {
+              "default": {
+                "dtype": "int64",
+                "_type": "Value"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            },
+            "priority": {
+              "default": {
+                "dtype": "string",
+                "_type": "Value"
+              },
+              "enum": {
+                "feature": {
+                  "dtype": "string",
+                  "_type": "Value"
+                },
+                "_type": "List"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            },
+            "query": {
+              "description": {
+                "dtype": "string",
+                "_type": "Value"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            },
+            "subject": {
+              "description": {
+                "dtype": "string",
+                "_type": "Value"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            },
+            "table": {
+              "description": {
+                "dtype": "string",
+                "_type": "Value"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            },
+            "to": {
+              "description": {
+                "dtype": "string",
+                "_type": "Value"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            },
+            "units": {
+              "enum": {
+                "feature": {
+                  "dtype": "string",
+                  "_type": "Value"
+                },
+                "_type": "List"
+              },
+              "type": {
+                "dtype": "string",
+                "_type": "Value"
+              }
+            }
+          },
+          "required": {
+            "feature": {
+              "dtype": "string",
+              "_type": "Value"
+            },
+            "_type": "List"
+          },
+          "type": {
+            "dtype": "string",
+            "_type": "Value"
+          }
+        }
+      },
+      "_type": "List"
+    },
+    "query": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "tool_calls": {
+      "feature": {
+        "arguments": {
+          "body": {
+            "dtype": "string",
+            "_type": "Value"
+          },
+          "expression": {
+            "dtype": "string",
+            "_type": "Value"
+          },
+          "filters": {
+            "status": {
+              "dtype": "string",
+              "_type": "Value"
+            }
+          },
+          "include_forecast": {
+            "dtype": "bool",
+            "_type": "Value"
+          },
+          "language": {
+            "dtype": "string",
+            "_type": "Value"
+          },
+          "limit": {
+            "dtype": "int64",
+            "_type": "Value"
+          },
+          "location": {
+            "dtype": "string",
+            "_type": "Value"
+          },
+          "num_results": {
+            "dtype": "int64",
+            "_type": "Value"
+          },
+          "precision": {
+            "dtype": "int64",
+            "_type": "Value"
+          },
+          "priority": {
+            "dtype": "string",
+            "_type": "Value"
+          },
+          "query": {
+            "dtype": "string",
+            "_type": "Value"
+          },
+          "subject": {
+            "dtype": "string",
+            "_type": "Value"
+          },
+          "table": {
+            "dtype": "string",
+            "_type": "Value"
+          },
+          "to": {
+            "dtype": "string",
+            "_type": "Value"
+          },
+          "units": {
+            "dtype": "string",
+            "_type": "Value"
+          }
+        },
+        "name": {
+          "dtype": "string",
+          "_type": "Value"
+        }
+      },
+      "_type": "List"
+    }
+  },
+  "homepage": "",
+  "license": ""
+}

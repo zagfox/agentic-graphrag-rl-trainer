@@ -1,0 +1,44 @@
+{
+  "_comment": "High Memory Config - 32GB+ RAM + RTX 4080/4090 (16-24GB VRAM)",
+  "_expected_ram_usage": "~16-22 GB",
+  "_training_time": "~8-12 hours for 10k steps",
+
+  "experiment": {
+    "name": "high_memory_32gb",
+    "seed": 42
+  },
+  "training": {
+    "sft_warmstart": {
+      "enabled": true,
+      "num_epochs": 3,
+      "batch_size": 4,
+      "gradient_accumulation_steps": 4
+    },
+    "ppo": {
+      "batch_size": 4,
+      "num_generations": 4,
+      "gradient_accumulation_steps": 4,
+      "learning_rate": 1.41e-5
+    },
+    "schedule": {
+      "total_steps": 10000,
+      "eval_steps": 500,
+      "save_steps": 500,
+      "logging_steps": 10
+    }
+  },
+  "dataset": {
+    "preprocessing": {
+      "max_length": 2048
+    },
+    "loader": {
+      "batch_size": 4,
+      "num_workers": 4
+    }
+  },
+  "experiment": {
+    "logging": {
+      "use_wandb": true
+    }
+  }
+}

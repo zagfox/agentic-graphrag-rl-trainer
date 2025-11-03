@@ -1,0 +1,27 @@
+# @package dataset
+
+name: "synthetic_function_calling"
+path: "./data/synthetic_function_calling/dataset"  # Local synthetic dataset
+
+preprocessing:
+  max_length: 2048
+  padding: "max_length"
+  truncation: true
+  add_special_tokens: true
+
+split:
+  train_ratio: 0.85
+  val_ratio: 0.10
+  test_ratio: 0.05
+
+format:
+  system_prompt: "You are a function calling AI assistant. You have access to the following tools:"
+  function_call_format: "json"
+  include_negative_samples: true
+  negative_sample_ratio: 0.2
+
+loader:
+  batch_size: 4
+  num_workers: 4
+  pin_memory: true
+  shuffle: true

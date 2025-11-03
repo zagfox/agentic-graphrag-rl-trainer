@@ -1,0 +1,41 @@
+{
+  "_comment": "Quick Test Config - For testing (completes in ~30-60 minutes)",
+  "_expected_ram_usage": "~4-6 GB",
+  "_training_time": "~30-60 minutes for 100 steps",
+
+  "experiment": {
+    "name": "quick_test",
+    "seed": 42
+  },
+  "training": {
+    "sft_warmstart": {
+      "enabled": false
+    },
+    "ppo": {
+      "batch_size": 2,
+      "num_generations": 2,
+      "gradient_accumulation_steps": 2,
+      "learning_rate": 1.41e-5
+    },
+    "schedule": {
+      "total_steps": 100,
+      "eval_steps": 50,
+      "save_steps": 50,
+      "logging_steps": 5
+    }
+  },
+  "dataset": {
+    "preprocessing": {
+      "max_length": 512
+    },
+    "loader": {
+      "batch_size": 2,
+      "num_workers": 2
+    }
+  },
+  "experiment": {
+    "logging": {
+      "use_wandb": true
+    }
+  }
+}

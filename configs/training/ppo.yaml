@@ -1,0 +1,41 @@
+# @package training
+
+algorithm: "grpo"  # Using GRPO instead of PPO (more modern, better for function calling)
+
+sft_warmstart:
+  enabled: true
+  num_epochs: 3
+  batch_size: 4
+  learning_rate: 2.0e-5
+  gradient_accumulation_steps: 4
+  warmup_steps: 100
+
+ppo:  # Named ppo for backward compatibility, but using GRPO
+  learning_rate: 1.41e-5
+  num_ppo_epochs: 4
+  mini_batch_size: 1
+  batch_size: 4
+  gradient_accumulation_steps: 4
+  num_generations: 4  # Number of completions per prompt for GRPO
+
+  ppo_params:
+    init_kl_coef: 0.2
+    target: 6.0
+    adap_kl_ctrl: true
+    gamma: 1.0
+    lam: 0.95
+    cliprange: 0.2
+    cliprange_value: 0.2
+    vf_coef: 0.1
+
+optimization:
+  optimizer: "adamw_torch_fused"  # Fused AdamW for better performance
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  warmup_steps: 100
+
+schedule:
+  total_steps: 10000
+  eval_steps: 500
+  save_steps: 1000
+  logging_steps: 10

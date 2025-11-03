@@ -1,0 +1,37 @@
+# @package model
+
+name_or_path: "Qwen/Qwen3-8B"  # Qwen3-8B (8.2B params, released April 2025)
+tokenizer_name: "Qwen/Qwen3-8B"
+trust_remote_code: true
+
+# Sequence length configuration
+max_sequence_length: 2048  # Can be adjusted based on GPU memory (Qwen3 supports up to 128k)
+
+quantization:
+  load_in_4bit: true
+  bnb_4bit_compute_dtype: "bfloat16"
+  bnb_4bit_use_double_quant: true
+  bnb_4bit_quant_type: "nf4"
+
+lora:
+  r: 16                    # LoRA rank
+  lora_alpha: 32           # LoRA alpha (scaling factor)
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  use_rslora: true         # Rank-Stabilized LoRA
+
+generation:
+  max_new_tokens: 512
+  temperature: 0.7
+  top_p: 0.9
+  do_sample: true
+  pad_token_id: 151643     # Qwen3 pad token (auto-detected at runtime)

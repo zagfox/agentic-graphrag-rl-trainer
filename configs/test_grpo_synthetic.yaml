@@ -1,0 +1,32 @@
+# @package _global_
+
+defaults:
+  - model: qwen3_8b
+  - dataset: synthetic_function_calling
+  - training: grpo_debug
+  - reward: composite_reward
+  - _self_
+
+experiment:
+  name: "grpo_synthetic_test"
+  seed: 42
+  output_dir: "./experiments/${experiment.name}"
+  logging:
+    use_wandb: false  # Disable for quick test
+    log_interval: 2
+    save_interval: 100
+    eval_interval: 100
+
+hardware:
+  device: "cuda"
+  gpu_id: 0
+  mixed_precision: "bf16"
+  gradient_checkpointing: true
+  max_memory: "12GB"
+  use_flash_attention: true
+  auto_detect_gpu: true
+  auto_tune_sequence_length: true
+  target_memory_utilization: 0.8
+  min_batch_size: 1
+  max_batch_size: 8
+  adaptive_batching: true

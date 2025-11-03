@@ -1,0 +1,31 @@
+{
+  "_comment": "GRPO debug configuration - fixes reward variance issues",
+
+  "experiment.name": "grpo_debug_run",
+  "experiment.logging.use_wandb": true,
+
+  "training.sft_warmstart.enabled": false,
+
+  "_comment_num_generations": "Increase to 8 for better diversity in GRPO groups (was 2)",
+  "training.ppo.batch_size": 1,
+  "training.ppo.num_generations": 8,
+  "training.ppo.gradient_accumulation_steps": 4,
+  "training.ppo.learning_rate": "1.41e-5",
+
+  "_comment_generation": "Increase temperature and top_p for more diverse generations",
+  "model.generation.temperature": 1.0,
+  "model.generation.top_p": 0.95,
+  "model.generation.do_sample": true,
+
+  "_comment_sequence": "Adjust max_sequence_length to allow longer completions",
+  "model.max_sequence_length": 512,
+
+  "training.schedule.total_steps": 1000,
+  "training.schedule.eval_steps": 100,
+  "training.schedule.save_steps": 500,
+  "training.schedule.logging_steps": 5,
+
+  "_comment_normalization": "Disable z-score normalization temporarily to see raw rewards",
+  "reward.normalization.method": "none",
+  "reward.normalization.clip_range": [-10.0, 10.0]
+}

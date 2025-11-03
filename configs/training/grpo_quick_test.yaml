@@ -1,0 +1,45 @@
+# @package training
+
+# Quick Test Configuration
+# For rapid testing and debugging (completes in ~30-60 minutes)
+# Minimal memory footprint
+
+algorithm: "grpo"
+
+sft_warmstart:
+  enabled: false  # Skip warmstart for speed
+  num_epochs: 1
+  batch_size: 2
+  learning_rate: 2.0e-5
+  gradient_accumulation_steps: 2
+  warmup_steps: 10
+
+ppo:
+  learning_rate: 1.41e-5
+  num_ppo_epochs: 2  # Reduced from 4
+  mini_batch_size: 1
+  batch_size: 2
+  gradient_accumulation_steps: 2
+  num_generations: 2  # Minimal generations
+
+  ppo_params:
+    init_kl_coef: 0.2
+    target: 6.0
+    adap_kl_ctrl: true
+    gamma: 1.0
+    lam: 0.95
+    cliprange: 0.2
+    cliprange_value: 0.2
+    vf_coef: 0.1
+
+optimization:
+  optimizer: "adamw_torch_fused"
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  warmup_steps: 10
+
+schedule:
+  total_steps: 100  # Quick test
+  eval_steps: 50
+  save_steps: 50
+  logging_steps: 5

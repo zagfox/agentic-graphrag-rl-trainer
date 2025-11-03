@@ -1,0 +1,23 @@
+{
+  "_comment": "Ultra low memory configuration for 12GB GPUs - disables SFT warmstart to save memory",
+  
+  "experiment.logging.use_wandb": true,
+  
+  "training.sft_warmstart.enabled": false,
+  
+  "training.ppo.batch_size": 1,
+  "training.ppo.num_generations": 2,
+  "training.ppo.gradient_accumulation_steps": 8,
+  "training.ppo.learning_rate": "1.41e-5",
+  
+  "training.schedule.total_steps": 5000,
+  "training.schedule.eval_steps": 500,
+  "training.schedule.save_steps": 1000,
+  "training.schedule.logging_steps": 10,
+  
+  "dataset.preprocessing.max_length": 512,
+  "dataset.loader.batch_size": 1,
+  "dataset.loader.num_workers": 0,
+  
+  "model.max_sequence_length": 256
+}

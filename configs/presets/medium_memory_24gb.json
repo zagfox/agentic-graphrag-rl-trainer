@@ -1,0 +1,44 @@
+{
+  "_comment": "Medium Memory Config - 24GB RAM + RTX 4070/4080 (12-16GB VRAM)",
+  "_expected_ram_usage": "~12-16 GB",
+  "_training_time": "~12-16 hours for 10k steps",
+
+  "experiment": {
+    "name": "medium_memory_24gb",
+    "seed": 42
+  },
+  "training": {
+    "sft_warmstart": {
+      "enabled": true,
+      "num_epochs": 3,
+      "batch_size": 3,
+      "gradient_accumulation_steps": 4
+    },
+    "ppo": {
+      "batch_size": 3,
+      "num_generations": 3,
+      "gradient_accumulation_steps": 4,
+      "learning_rate": 1.41e-5
+    },
+    "schedule": {
+      "total_steps": 10000,
+      "eval_steps": 500,
+      "save_steps": 500,
+      "logging_steps": 10
+    }
+  },
+  "dataset": {
+    "preprocessing": {
+      "max_length": 1536
+    },
+    "loader": {
+      "batch_size": 3,
+      "num_workers": 3
+    }
+  },
+  "experiment": {
+    "logging": {
+      "use_wandb": true
+    }
+  }
+}
