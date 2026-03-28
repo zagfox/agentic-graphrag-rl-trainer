@@ -96,7 +96,7 @@ class CompositeRewardFunction(BaseRewardFunction):
         shaped_rewards = []
         shaped_predictions = []
 
-        logger.info(f"🔍 DEBUG Progressive Reward Shaping:")
+        logger.debug(f"🔍 DEBUG Progressive Reward Shaping:")
         logger.info(f"  Batch size: {len(predicted_list)}")
 
         for i, (pred, gt, query) in enumerate(zip(predicted_list, ground_truth_list, query_list)):
@@ -108,7 +108,7 @@ class CompositeRewardFunction(BaseRewardFunction):
             # Step 1: Reward any attempt at structured output
             if '{' in pred_str and '}' in pred_str:
                 shaped_reward += 0.5  # +0.5 for attempting JSON
-                logger.info(f"    Sample {i}: JSON attempt detected (+0.5)")
+                logger.debug(f"    Sample {i}: JSON attempt detected (+0.5)")
 
             # Step 2: Reward valid JSON structure (robust extraction)
             try:
@@ -119,28 +119,28 @@ class CompositeRewardFunction(BaseRewardFunction):
                     parsed_pred = pred
 
                 shaped_reward += 0.3  # +0.3 for valid JSON
-                logger.info(f"    Sample {i}: Valid JSON (+0.3)")
+                logger.debug(f"    Sample {i}: Valid JSON (+0.3)")
 
                 # Step 3: Reward function call structure
                 if isinstance(parsed_pred, list) and len(parsed_pred) > 0:
                     first_item = parsed_pred[0]
                     if isinstance(first_item, dict) and 'name' in first_item:
                         shaped_reward += 0.2  # +0.2 for function name field
-                        logger.info(f"    Sample {i}: Function name field (+0.2)")
+                        logger.debug(f"    Sample {i}: Function name field (+0.2)")
 
                     if isinstance(first_item, dict) and 'arguments' in first_item:
                         shaped_reward += 0.2  # +0.2 for arguments field
-                        logger.info(f"    Sample {i}: Arguments field (+0.2)")
+                        logger.debug(f"    Sample {i}: Arguments field (+0.2)")
 
                 # Step 4: Use original reward if JSON structure is valid
                 original_reward = super().batch_compute_reward([pred], [gt], [query])[0].item()
                 if original_reward > -1.0:
                     # Blend progressive and original reward
                     shaped_reward = max(shaped_reward, original_reward)
-                    logger.info(f"    Sample {i}: Good semantic match, keeping original reward: {original_reward:.3f}")
+                    logger.debug(f"    Sample {i}: Good semantic match, keeping original reward: {original_reward:.3f}")
 
             except (json.JSONDecodeError, Exception) as e:
-                logger.info(f"    Sample {i}: Invalid JSON, keeping base reward: {shaped_reward:.3f}")
+                logger.debug(f"    Sample {i}: Invalid JSON, keeping base reward: {shaped_reward:.3f}")
 
             shaped_rewards.append(shaped_reward)
 
@@ -162,9 +162,9 @@ class CompositeRewardFunction(BaseRewardFunction):
         # Convert to tensor
         shaped_rewards_tensor = torch.tensor(shaped_rewards, dtype=torch.float32)
 
-        logger.info(f"  Shaped rewards: {shaped_rewards}")
-        logger.info(f"  Shaped reward mean: {shaped_rewards_tensor.mean().item():.4f}")
-        logger.info(f"  Shaped reward std: {shaped_rewards_tensor.std().item():.4f}")
+        logger.debug(f"  Shaped rewards: {shaped_rewards}")
+        logger.debug(f"  Shaped reward mean: {shaped_rewards_tensor.mean().item():.4f}")
+        logger.debug(f"  Shaped reward std: {shaped_rewards_tensor.std().item():.4f}")
 
         # Now apply original composite reward logic with shaped rewards
         # Use shaped_predictions for semantic matching if they have valid JSON
@@ -180,24 +180,24 @@ class CompositeRewardFunction(BaseRewardFunction):
             variance = sum((r - self.reward_mean) ** 2 for r in self.reward_history) / len(self.reward_history)
             self.reward_std = variance ** 0.5
 
-        logger.info(f"  Reward history stats: mean={self.reward_mean:.4f}, std={self.reward_std:.4f}")
+        #logger.debug(f"  Reward history stats: mean={self.reward_mean:.4f}, std={self.reward_std:.4f}")
 
         # Normalize
         if self.normalization_method == "z_score":
             if self.reward_std > 1e-8:  # Avoid division by zero
                 rewards = (rewards - self.reward_mean) / (self.reward_std + 1e-8)
-                logger.info(f"  Normalized rewards (z-score): {rewards.tolist()}")
+                logger.debug(f"  Normalized rewards (z-score): {rewards.tolist()}")
             else:
-                logger.info(f"  Skipping z-score normalization (std too small: {self.reward_std:.6f})")
+                logger.debug(f"  Skipping z-score normalization (std too small: {self.reward_std:.6f})")
         elif self.normalization_method == "none":
-            logger.info(f"  No normalization applied (method=none)")
+            logger.debug(f"  No normalization applied (method=none)")
         else:
             logger.warning(f"  Unknown normalization method: {self.normalization_method}, skipping normalization")
 
         # Clip
         if self.clip_range is not None:
             rewards = torch.clamp(rewards, self.clip_range[0], self.clip_range[1])
-            logger.info(f"  Clipped rewards: {rewards.tolist()}")
+            logger.debug(f"  Clipped rewards: {rewards.tolist()}")
 
         return rewards
 

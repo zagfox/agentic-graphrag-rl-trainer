@@ -77,6 +77,8 @@ class AgenticRLTrainer:
             max_steps=config.schedule.total_steps,
             logging_steps=config.schedule.logging_steps,
             save_steps=config.schedule.save_steps,
+            eval_steps=config.schedule.eval_steps,                                                                                                                
+            eval_strategy="steps",
             max_grad_norm=config.optimization.max_grad_norm,
             warmup_steps=config.optimization.warmup_steps,
             weight_decay=config.optimization.weight_decay,
