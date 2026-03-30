@@ -243,6 +243,9 @@ class AgenticRLTrainer:
             report_to="wandb" if self.exp_cfg.logging.use_wandb else "none",
             # Disable torch compile to avoid errors
             torch_compile=False,
+            # Memory optimizations (critical for large models)
+            bf16=True,
+            gradient_checkpointing=True,
         )
 
         # Create SFT dataset (prompt + expected completion)
@@ -447,6 +450,10 @@ class AgenticRLTrainer:
         sft_trainer.save_model(str(sft_save_path))
         logger.info(f"SFT warm-start completed! Model saved to {sft_save_path}")
         print(f"SFT warm-start completed! Model saved to {sft_save_path}", flush=True)
+
+        # Release SFT trainer and optimizer states before GRPO training
+        del sft_trainer
+        clear_gpu_memory()
 
     def evaluate(self) -> Dict:
         """Evaluate on validation set."""
